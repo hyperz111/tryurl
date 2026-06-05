@@ -1,18 +1,22 @@
 {
 	"name": "tryurl",
-	"private": true,
 	"version": "0.0.1",
+	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
 		"build": "vite build",
-		"preview": "vite preview",
-		"prepare": "svelte-kit sync || echo ''"
+		"check": "prettier --check .",
+		"dev": "vite dev",
+		"format": "prettier --write .",
+		"prepare": "svelte-kit sync || echo ''",
+		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@hyperz111/prettier-config": "^1.1.0",
 		"@sveltejs/adapter-auto": "^7.0.1",
 		"@sveltejs/kit": "^2.57.0",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
+		"prettier": "^3.8.3",
 		"svelte": "^5.55.2",
 		"vite": "^8.0.7"
 	}
