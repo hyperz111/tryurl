@@ -11,6 +11,9 @@
 		"prepare": "svelte-kit sync || echo ''",
 		"preview": "vite preview"
 	},
+	"dependencies": {
+		"nanoid": "^5.1.11"
+	},
 	"devDependencies": {
 		"@hyperz111/prettier-config": "^1.1.0",
 		"@sveltejs/adapter-auto": "^7.0.1",
