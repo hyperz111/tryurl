@@ -5,7 +5,7 @@ export const load = async ({ params }) => {
 	const result = await access(params.slug);
 
 	if (result.slug === null) {
-		throw error(401);
+		throw error(404);
 	}
 
 	return result;
