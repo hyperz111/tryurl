@@ -11,6 +11,10 @@ const caches = getStore("cache");
  * @return {Promise<string>}
  */
 export const create = async (slug, urls) => {
+	if ((await slugs.get(slug, { type: "json" })) !== undefined) {
+		return;
+	}
+
 	const token = nanoid();
 
 	await slugs.setJSON(slug, urls);
@@ -20,10 +24,20 @@ export const create = async (slug, urls) => {
 };
 
 /**
+ * @param {string} slug
+ * @param {Array<string>} urls
+ * @return {Promise<void>}
+ */
+export const update = async (slug, urls) => {
+	await slugs.setJSON(slug, urls);
+	await caches.delete(slug);
+};
+
+/**
  * @param {string} token
  * @return {Promise<{ slug: string | null, urls?: Array<string> }>}
  */
-export const manage = async (token) => {
+export const access = async (token) => {
 	const slug = await tokens.get(token, { type: "json" });
 	if (!slug) {
 		return {
@@ -36,10 +50,13 @@ export const manage = async (token) => {
 	return {
 		slug,
 		urls,
-		// update: (urls) => slugs.setJSON(slug, urls)
 	};
 };
 
+/**
+ * @param {string} slug
+ * @return {Promise<{ ok: boolean, url?: string, status?: number }>}
+ */
 export const visit = async (slug) => {
 	const cached = await caches.get(slug, { type: "json" });
 	if (cached && cached.expiredAt > Date.now()) {

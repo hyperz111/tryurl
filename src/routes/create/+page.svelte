@@ -6,8 +6,7 @@
 
 	const remove = (index) => {
 		if (urls.length > 1) {
-			urls[index] = null;
-			urls = urls.filter((url) => url !== null);
+			urls = [...urls.slice(0, index), ...urls.slice(index + 1)];
 		}
 	};
 </script>
@@ -15,8 +14,7 @@
 <h1>Create</h1>
 
 <form method="POST">
-	<!--- Concat all URLs in here --->
-	<textarea name="urls" bind:value hidden></textarea>
+	<textarea name="urls" {value} hidden></textarea>
 
 	<div>
 		{#each urls as url, index}
