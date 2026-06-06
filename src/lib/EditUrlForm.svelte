@@ -22,7 +22,7 @@
 </script>
 
 <form method="POST" class="box container is-max-tablet has-text-centered">
-	<fieldset class="is-flex is-flex-direction-column is-gap-3">
+	<fieldset class="is-flex is-flex-direction-column is-gap-2">
 		{#if showForm}
 			<div>
 				<label for="slug" class="label">Slug Name</label>
@@ -36,18 +36,26 @@
 			</div>
 
 			<div>
-				<label for="urls" class="label">URLs</label>
+				<label for="urls" class="label is-flex is-flex-direction-column">
+					URLs
+					<span class="has-text-grey is-size-7">(max. 5 URLs)</span>
+				</label>
 
 				<ul class="is-flex is-flex-direction-column is-gap-1">
 					{#each urls as _, index}
 						<li class="is-flex is-gap-1">
 							<input type="url" class="input" placeholder="e.g. https://example.com" bind:value={urls[index]} required />
-							<button type="button" class="button" onclick={() => remove(index)}>×</button>
+							{#if urls.length > 1}
+								<button type="button" class="button" onclick={() => remove(index)}>×</button>
+							{/if}
 						</li>
 					{/each}
 				</ul>
 
-				<button type="button" class="button is-fullwidth mt-2 is-dark" onclick={add}>Add</button>
+				{#if urls.length < 5}
+					<button type="button" class="button is-fullwidth mt-2 is-dark" onclick={add}>Add</button>
+				{/if}
+
 				<input type="hidden" name="urls" {value} />
 			</div>
 
