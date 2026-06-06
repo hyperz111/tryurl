@@ -15,8 +15,8 @@
 	});
 </script>
 
-<header class="menu">
-	<nav class="navbar has-shadow">
+<header>
+	<nav class="navbar container is-fixed-top has-shadow">
 		<div class="navbar-brand">
 			<a href="/" class="navbar-item">TryURL</a>
 			<button title="navbar burger button" class="navbar-burger" onclick={() => (opened = !opened)}>
@@ -33,12 +33,14 @@
 				{/each}
 			</div>
 		</div>
+		{#if opened}
+			<div transition:slide class="menu">
+				<div class="menu-list">
+					{#each menus as [href, label] (href)}
+						<a {href} class="menu-item">{label}</a>
+					{/each}
+				</div>
+			</div>
+		{/if}
 	</nav>
-	{#if opened}
-		<div transition:slide class="menu-list">
-			{#each menus as [href, label] (href)}
-				<a {href} class="menu-item">{label}</a>
-			{/each}
-		</div>
-	{/if}
 </header>
