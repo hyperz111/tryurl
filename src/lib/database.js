@@ -92,7 +92,7 @@ export const visit = async (slug) => {
 				method: "HEAD",
 			});
 
-			if (response.status < 400) {
+			if (response.ok) {
 				await caches.setJSON(slug, {
 					url,
 					// 30 minutes
