@@ -1,4 +1,5 @@
 <script>
+	import "bulma/css/bulma.css";
 	import favicon from "$lib/assets/favicon.svg";
 
 	let { children } = $props();
@@ -8,4 +9,6 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-{@render children()}
+<main class="">
+	{@render children()}
+</main>

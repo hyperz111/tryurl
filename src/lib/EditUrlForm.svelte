@@ -1,5 +1,7 @@
 <script>
 	let {
+		isCreate,
+		slug = "",
 		urls = $bindable([]),
 		submitButtonText,
 
@@ -20,18 +22,21 @@
 	};
 </script>
 
-<form method="POST">
-	<fieldset>
-		{@render header?.()}
+<form method="POST" class="">
+	<fieldset class="">
+		<div class="">
+			<label for="slug">Slug Name</label>
+			<input type="text" name="slug" value={slug} class="" {...{ [isCreate ? "required" : "readonly"]: true }} />
+		</div>
 
 		<div>
 			<label>URLs</label>
 
 			<ul>
 				{#each urls as _, index}
-					<li>
-						<input type="url" bind:value={urls[index]} required />
-						<button type="button" onclick={() => remove(index)}>×</button>
+					<li class="">
+						<input type="url" class="" bind:value={urls[index]} required />
+						<button type="button" class="" onclick={() => remove(index)}>×</button>
 					</li>
 				{/each}
 			</ul>
@@ -41,8 +46,7 @@
 		</div>
 
 		<div>
-			<button type="submit">{submitButtonText}</button>
-			{@render footer?.()}
+			<button type="submit">{isCreate ? "Create" : "Save"}</button>
 		</div>
 	</fieldset>
 </form>

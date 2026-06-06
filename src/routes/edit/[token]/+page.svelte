@@ -9,14 +9,7 @@
 
 <h1>Edit Slug</h1>
 
-<EditUrlForm submitButtonText="Update" bind:urls>
-	{#snippet header()}
-		<div>
-			<label for="slug">Slug name:</label>
-			<input type="text" name="slug" value={data.slug} readonly />
-		</div>
-	{/snippet}
-</EditUrlForm>
+<EditUrlForm isCreate={false} bind:urls slug={data.slug} />
 
 {#if form?.success}
 	<p>Success</p>

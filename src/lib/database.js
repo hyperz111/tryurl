@@ -1,6 +1,6 @@
 import { getStore } from "$lib/storage/index.js";
 import { nanoid } from "nanoid";
-import { CACHE_TTL } from "$lib/contants.js";
+import { CACHE_TTL } from "$lib/constants.js";
 
 const slugs = getStore("slug");
 const tokens = getStore("token");
