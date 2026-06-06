@@ -22,6 +22,12 @@ export const actions = {
 			.filter(Boolean);
 
 		const { slug } = await access(params.slug);
+		if (slug === null) {
+			return {
+				success: false,
+			};
+		}
+
 		await update(slug, urls);
 
 		return {

@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import { create } from "$lib/database.js";
 
 export const actions = {
@@ -11,7 +10,7 @@ export const actions = {
 			.map((url) => url.trim())
 			.filter(Boolean);
 
-		const slug = nanoid(12);
+		const slug = form.get("slug").trim();
 		const token = await create(slug, urls);
 
 		return {

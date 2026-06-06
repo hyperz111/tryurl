@@ -1,6 +1,3 @@
-<script>
-</script>
-
 <h1>Edit</h1>
 
 <form method="GET">

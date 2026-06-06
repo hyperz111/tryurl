@@ -8,9 +8,16 @@
 
 <h1>Create</h1>
 
-<EditUrlForm submitButtonText="Create" bind:urls />
+<EditUrlForm submitButtonText="Create" bind:urls>
+	{#snippet header()}
+		<span>
+			<label for="slug">Slug name:</label>
+			<input type="text" name="slug" required>
+		</span>
+	{/snippet}
+</EditUrlForm>
 
 {#if form?.success}
-	<p>Slug: {form.slug}</p>
-	<p>Token: {form.token}</p>
+	<p>Slug Name: {form.slug}</p>
+	<p>Edit Token: {form.token}</p>
 {/if}
