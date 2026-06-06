@@ -12,6 +12,6 @@
 
 <NavigationBar />
 
-<main class="container is-fluid">
+<main class="container is-fluid py-5">
 	{@render children()}
 </main>
