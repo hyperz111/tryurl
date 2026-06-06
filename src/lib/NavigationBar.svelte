@@ -18,7 +18,7 @@
 <header>
 	<nav class="navbar container is-fixed-top has-shadow">
 		<div class="navbar-brand">
-			<a href="/" class="navbar-item">TryURL</a>
+			<a href="/" class="navbar-item has-text-weight-bold">TryURL</a>
 			<button title="navbar burger button" class="navbar-burger" onclick={() => (opened = !opened)}>
 				<span></span>
 				<span></span>
