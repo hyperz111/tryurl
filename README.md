@@ -1,42 +1,28 @@
-# sv
+# tryurl
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+> [!CAUTION]
+> 🚧 On development. Please don't use this in production!!\
+> But honestly, this is just a fun project.
 
-## Creating a project
+One URL for many URLs.
 
-If you're seeing this, you've probably already done this step. Congrats!
+Useful when you need to create a simple mirror links.
+For example, these URLs:
 
-```sh
-# create a new project
-npx sv create my-app
+```text
+https://foo.com (dead)
+https://bar.io/hello/world (dead)
+https://qux.org/hey (alive)
 ```
 
-To recreate this project with the same configuration:
+Can be merged into one URL:
 
-```sh
-# recreate this project
-npx sv@0.15.3 create --template minimal --no-types --no-install tryurl
+```text
+https://tryurl.netlify.app/my-fbq
 ```
 
-## Developing
+And will redirect you to:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```text
+https://qux.org/hey
 ```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
