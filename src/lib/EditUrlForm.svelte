@@ -25,11 +25,14 @@
 	<fieldset class="is-flex is-flex-direction-column is-gap-2">
 		{#if showForm}
 			<div>
-				<label for="slug" class="label">Slug Name</label>
+				<label for="slug" class="label is-flex is-flex-direction-column">
+					Slug Name
+					<span class="has-text-grey is-size-7">(no whitespace)</span>
+				</label>
 				<input
 					type="text"
 					name="slug"
-					value={slug}
+					bind:value={slug}
 					class="input"
 					placeholder="e.g. my-stacked-url"
 					{...{ [isCreate ? "required" : "disabled"]: true }} />
@@ -60,7 +63,8 @@
 			</div>
 
 			<div class="has-text-centered">
-				<button type="submit" class="button is-primary">{isCreate ? "Create" : "Save"}</button>
+				<button type="submit" class="button is-primary" disabled={slug !== "" && /\s/.test(slug)}
+					>{isCreate ? "Create" : "Save"}</button>
 			</div>
 		{:else}
 			{@render children()}
