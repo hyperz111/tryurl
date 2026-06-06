@@ -2,7 +2,7 @@ import { error } from "@sveltejs/kit";
 import { access, update } from "$lib/database.js";
 
 export const load = async ({ params }) => {
-	const result = await access(params.slug);
+	const result = await access(params.token);
 
 	if (result.slug === null) {
 		throw error(404);
@@ -21,11 +21,9 @@ export const actions = {
 			.map((url) => url.trim())
 			.filter(Boolean);
 
-		const { slug } = await access(params.slug);
+		const { slug } = await access(params.token);
 		if (slug === null) {
-			return {
-				success: false,
-			};
+			throw error(404);
 		}
 
 		await update(slug, urls);
