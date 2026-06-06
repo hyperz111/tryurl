@@ -3,10 +3,9 @@
 		isCreate,
 		slug = "",
 		urls = $bindable([]),
-		submitButtonText,
+		showForm = true,
 
-		header,
-		footer,
+		children,
 	} = $props();
 
 	let value = $derived(urls.join("\n"));
@@ -22,31 +21,41 @@
 	};
 </script>
 
-<form method="POST" class="">
-	<fieldset class="">
-		<div class="">
-			<label for="slug">Slug Name</label>
-			<input type="text" name="slug" value={slug} class="" {...{ [isCreate ? "required" : "readonly"]: true }} />
-		</div>
+<form method="POST" class="box container is-max-tablet has-text-centered">
+	<fieldset class="is-flex is-flex-direction-column is-gap-3">
+		{#if showForm}
+			<div>
+				<label for="slug" class="label">Slug Name</label>
+				<input
+					type="text"
+					name="slug"
+					value={slug}
+					class="input"
+					placeholder="e.g. my-stacked-url"
+					{...{ [isCreate ? "required" : "disabled"]: true }} />
+			</div>
 
-		<div>
-			<label>URLs</label>
+			<div>
+				<label for="urls" class="label">URLs</label>
 
-			<ul>
-				{#each urls as _, index}
-					<li class="">
-						<input type="url" class="" bind:value={urls[index]} required />
-						<button type="button" class="" onclick={() => remove(index)}>×</button>
-					</li>
-				{/each}
-			</ul>
+				<ul class="is-flex is-flex-direction-column is-gap-1">
+					{#each urls as _, index}
+						<li class="is-flex is-gap-1">
+							<input type="url" class="input" placeholder="e.g. https://example.com" bind:value={urls[index]} required />
+							<button type="button" class="button" onclick={() => remove(index)}>×</button>
+						</li>
+					{/each}
+				</ul>
 
-			<button type="button" onclick={add}>Add</button>
-			<input type="hidden" name="urls" {value} />
-		</div>
+				<button type="button" class="button is-fullwidth mt-2 is-dark" onclick={add}>Add</button>
+				<input type="hidden" name="urls" {value} />
+			</div>
 
-		<div>
-			<button type="submit">{isCreate ? "Create" : "Save"}</button>
-		</div>
+			<div class="has-text-centered">
+				<button type="submit" class="button is-primary">{isCreate ? "Create" : "Save"}</button>
+			</div>
+		{:else}
+			{@render children()}
+		{/if}
 	</fieldset>
 </form>

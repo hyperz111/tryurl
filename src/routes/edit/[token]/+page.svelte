@@ -7,10 +7,8 @@
 	let urls = $state([...data.urls]);
 </script>
 
-<h1>Edit Slug</h1>
+<h1 class="title has-text-centered">Edit</h1>
 
-<EditUrlForm isCreate={false} bind:urls slug={data.slug} />
-
-{#if form?.success}
-	<p>Success</p>
-{/if}
+<EditUrlForm isCreate={false} bind:urls slug={data.slug} showForm={!form?.success}>
+	<p class="has-text-bold">Changes for <b>{data.slug}</b> is saved!</p>
+</EditUrlForm>
