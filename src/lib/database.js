@@ -1,5 +1,6 @@
 import { getStore } from "$lib/storage/index.js";
 import { nanoid } from "nanoid";
+import { CACHE_TTL } from "$lib/contants.js";
 
 const slugs = getStore("slug");
 const tokens = getStore("token");
@@ -60,13 +61,23 @@ export const access = async (token) => {
 export const visit = async (slug) => {
 	const cached = await caches.get(slug, { type: "json" });
 	if (cached && cached.expiredAt > Date.now()) {
-		return {
-			ok: true,
-			url: cached.url,
-		};
+		try {
+			const response = await fetch(cached.url, {
+				method: "HEAD",
+			});
+
+			if (response.ok) {
+				return {
+					ok: true,
+					url: cached.url,
+				};
+			}
+		} catch {}
+		await caches.delete(slug);
 	}
 
-	const urls = await slugs.get(slug, { type: "json" });
+	const allUrls = await slugs.get(slug, { type: "json" });
+	const urls = Array.isArray(allUrls) && cached ? allUrls.filter((url) => url !== cached.url) : allUrls;
 
 	if (!Array.isArray(urls) || urls.length === 0) {
 		return {
@@ -85,7 +96,7 @@ export const visit = async (slug) => {
 				await caches.setJSON(slug, {
 					url,
 					// 30 minutes
-					expiredAt: Date.now() + 1000 * 60 * 30,
+					expiredAt: Date.now() + CACHE_TTL,
 				});
 
 				return {
