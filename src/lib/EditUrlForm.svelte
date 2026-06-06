@@ -21,19 +21,28 @@
 </script>
 
 <form method="POST">
-	{@render header?.()}
-	<input type="hidden" name="urls" {value} />
+	<fieldset>
+		{@render header?.()}
 
-	<div>
-		{#each urls as _, index}
-			<span>
-				<input type="url" bind:value={urls[index]} required />
-				<button type="button" onclick={() => remove(index)}>×</button>
-			</span>
-		{/each}
-	</div>
+		<div>
+			<label>URLs</label>
 
-	<button type="button" onclick={add}>Add</button>
-	<button type="submit">{submitButtonText}</button>
-	{@render footer?.()}
+			<ul>
+				{#each urls as _, index}
+					<li>
+						<input type="url" bind:value={urls[index]} required />
+						<button type="button" onclick={() => remove(index)}>×</button>
+					</li>
+				{/each}
+			</ul>
+
+			<button type="button" onclick={add}>Add</button>
+			<input type="hidden" name="urls" {value} />
+		</div>
+
+		<div>
+			<button type="submit">{submitButtonText}</button>
+			{@render footer?.()}
+		</div>
+	</fieldset>
 </form>

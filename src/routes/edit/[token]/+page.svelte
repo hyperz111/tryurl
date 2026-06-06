@@ -11,7 +11,10 @@
 
 <EditUrlForm submitButtonText="Update" bind:urls>
 	{#snippet header()}
-		<p>Slug: {data.slug}</p>
+		<div>
+			<label for="slug">Slug name:</label>
+			<input type="text" name="slug" value={data.slug} readonly />
+		</div>
 	{/snippet}
 </EditUrlForm>
 

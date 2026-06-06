@@ -1,4 +1,5 @@
 import { create } from "$lib/database.js";
+import { RESERVED_SLUGS } from "$lib/constants.js";
 
 export const actions = {
 	default: async ({ request }) => {
@@ -11,7 +12,21 @@ export const actions = {
 			.filter(Boolean);
 
 		const slug = form.get("slug").trim();
+		if (RESERVED_SLUGS.has(slug)) {
+			return {
+				success: false,
+				reason: "Reserved slug name",
+			};
+		}
+
 		const token = await create(slug, urls);
+
+		if (!token) {
+			return {
+				success: false,
+				reason: "Slug name is used",
+			};
+		}
 
 		return {
 			success: true,

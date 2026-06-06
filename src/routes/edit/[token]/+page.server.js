@@ -4,7 +4,7 @@ import { access, update } from "$lib/database.js";
 export const load = async ({ params }) => {
 	const result = await access(params.token);
 
-	if (result.slug === null) {
+	if (!result.slug) {
 		throw error(404);
 	}
 
