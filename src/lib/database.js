@@ -1,10 +1,10 @@
-import { getStore } from "$lib/storage/index.js";
+import store from "$lib/store.js";
 import { nanoid } from "nanoid";
 import { CACHE_TTL } from "$lib/constants.js";
 
-const slugs = getStore("slug");
-const tokens = getStore("token");
-const caches = getStore("cache");
+const slugs = store("slug");
+const tokens = store("token");
+const caches = store("cache");
 
 /**
  * @param {string} slug

@@ -1,10 +1,6 @@
-/**
- * Shim module for `@netlify/blobs`, used in development.
- */
-
 const stores = new Map();
 
-export const getStore = (name) => {
+let store = (name) => {
 	if (!stores.has(name)) {
 		const object = {
 			store: new Map(),
@@ -18,3 +14,10 @@ export const getStore = (name) => {
 
 	return stores.get(name);
 };
+
+if (import.meta.env.PROD) {
+	const { getStore } = await import("@netlify/blobs");
+	store = (name) => getStore({ name });
+}
+
+export default store;
