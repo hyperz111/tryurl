@@ -7,9 +7,7 @@ const config = {
 		runes: ({ filename }) => (filename.split(/[/\\]/).includes("node_modules") ? undefined : true),
 	},
 	kit: {
-		adapter: adapter({
-			edge: true,
-		}),
+		adapter: adapter(),
 	},
 };
 
