@@ -1,10 +1,10 @@
-import store from "$lib/store.js";
+import getStorage from "$lib/storage.js";
 import { nanoid } from "nanoid";
 import { CACHE_TTL } from "$lib/constants.js";
 
-const slugs = store("slug");
-const tokens = store("token");
-const caches = store("cache");
+const slugs = getStorage("slug");
+const tokens = getStorage("token");
+const caches = getStorage("cache");
 
 /**
  * @param {string} slug
@@ -12,14 +12,14 @@ const caches = store("cache");
  * @return {Promise<string>}
  */
 export const create = async (slug, urls) => {
-	if ((await slugs.get(slug, { type: "json" })) !== undefined) {
+	if ((await slugs.get(slug)) !== undefined) {
 		return;
 	}
 
 	const token = nanoid();
 
-	await slugs.setJSON(slug, urls);
-	await tokens.setJSON(token, slug);
+	await slugs.set(slug, urls);
+	await tokens.set(token, slug);
 
 	return token;
 };
@@ -30,7 +30,7 @@ export const create = async (slug, urls) => {
  * @return {Promise<void>}
  */
 export const update = async (slug, urls) => {
-	await slugs.setJSON(slug, urls);
+	await slugs.set(slug, urls);
 	await caches.delete(slug);
 };
 
@@ -39,14 +39,14 @@ export const update = async (slug, urls) => {
  * @return {Promise<{ slug: string | null, urls?: Array<string> }>}
  */
 export const access = async (token) => {
-	const slug = await tokens.get(token, { type: "json" });
+	const slug = await tokens.get(token);
 	if (!slug) {
 		return {
 			slug: null,
 		};
 	}
 
-	const urls = await slugs.get(slug, { type: "json" });
+	const urls = await slugs.get(slug);
 
 	return {
 		slug,
@@ -59,7 +59,7 @@ export const access = async (token) => {
  * @return {Promise<{ ok: boolean, url?: string, status?: number }>}
  */
 export const visit = async (slug) => {
-	const cached = await caches.get(slug, { type: "json" });
+	const cached = await caches.get(slug);
 	if (cached && cached.expiredAt > Date.now()) {
 		try {
 			const response = await fetch(cached.url, {
@@ -76,7 +76,7 @@ export const visit = async (slug) => {
 		await caches.delete(slug);
 	}
 
-	const allUrls = await slugs.get(slug, { type: "json" });
+	const allUrls = await slugs.get(slug);
 	const urls = Array.isArray(allUrls) && cached ? allUrls.filter((url) => url !== cached.url) : allUrls;
 
 	if (!Array.isArray(urls) || urls.length === 0) {
@@ -93,7 +93,7 @@ export const visit = async (slug) => {
 			});
 
 			if (response.ok) {
-				await caches.setJSON(slug, {
+				await caches.set(slug, {
 					url,
 					// 30 minutes
 					expiredAt: Date.now() + CACHE_TTL,
