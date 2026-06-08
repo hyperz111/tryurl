@@ -15,7 +15,7 @@ let getStorage = (name) => {
 	return stores.get(name);
 };
 
-if (process.env.NETLIFY === "true") {
+if (import.meta.env.PROD) {
 	const { getStore } = await import("@netlify/blobs");
 	getStorage = (name) => {
 		const store = getStore({
