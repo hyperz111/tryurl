@@ -12,7 +12,7 @@ const caches = getStorage("cache");
  * @return {Promise<string>}
  */
 export const create = async (slug, urls) => {
-	if ((await slugs.get(slug)) !== undefined) {
+	if ((await slugs.get(slug)) !== null) {
 		return;
 	}
 
