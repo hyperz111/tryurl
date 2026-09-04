@@ -2,6 +2,7 @@
 	let {
 		isCreate,
 		slug = "",
+		error = $bindable(),
 		urls = $bindable([]),
 		showForm = true,
 
@@ -20,6 +21,12 @@
 		urls = [...urls, ""];
 	};
 </script>
+
+{#if error}
+	<div class="box container is-max-tablet has-background-danger has-text-white">
+		<p>{error}</p>
+	</div>
+{/if}
 
 <form method="POST" class="box container is-max-tablet has-text-centered">
 	<fieldset class="is-flex is-flex-direction-column is-gap-2">
@@ -41,7 +48,7 @@
 			<div>
 				<label for="urls" class="label is-flex is-flex-direction-column">
 					URLs
-					<span class="has-text-grey is-size-7">(max. 5 URLs)</span>
+					<span class="has-text-grey is-size-7">(min. 2 URLs, max. 5 URLs)</span>
 				</label>
 
 				<ul class="is-flex is-flex-direction-column is-gap-1">
@@ -63,7 +70,7 @@
 			</div>
 
 			<div class="has-text-centered">
-				<button type="submit" class="button is-primary" disabled={slug !== "" && /\s/.test(slug)}
+				<button type="submit" class="button is-primary" disabled={slug === "" || /\s/.test(slug) || urls.length < 2}
 					>{isCreate ? "Create" : "Save"}</button>
 			</div>
 		{:else}

@@ -1,5 +1,6 @@
 import { error } from "@sveltejs/kit";
 import { access, update } from "$lib/database.js";
+import { checkUrls } from "$lib/utils.js";
 
 export const load = async ({ params }) => {
 	const result = await access(params.token);
@@ -20,6 +21,12 @@ export const actions = {
 			.split("\n")
 			.map((url) => url.trim())
 			.filter(Boolean);
+		if (!checkUrls(urls)) {
+			return {
+				success: false,
+				reason: "Has not allowed URL(s)",
+			};
+		}
 
 		const { slug } = await access(params.token);
 		if (slug === null) {

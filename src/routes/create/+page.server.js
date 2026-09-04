@@ -1,5 +1,6 @@
 import { create } from "$lib/database.js";
 import { RESERVED_SLUGS } from "$lib/constants.js";
+import { checkUrls } from "$lib/utils.js";
 
 export const actions = {
 	default: async ({ request }) => {
@@ -10,6 +11,12 @@ export const actions = {
 			.split("\n")
 			.map((url) => url.trim())
 			.filter(Boolean);
+		if (!checkUrls(urls)) {
+			return {
+				success: false,
+				reason: "Has not allowed URL(s)",
+			};
+		}
 
 		const slug = form.get("slug").trim();
 		if (RESERVED_SLUGS.has(slug)) {

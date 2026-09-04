@@ -24,13 +24,7 @@
 
 <h1 class="title has-text-centered">Create</h1>
 
-{#if form?.reason}
-	<div class="box container is-max-tablet has-background-danger has-text-white">
-		<p>{form?.reason}</p>
-	</div>
-{/if}
-
-<EditUrlForm isCreate={true} bind:urls showForm={!form || !form?.success}>
+<EditUrlForm isCreate={true} bind:urls showForm={!form || !form?.success} error={form?.reason}>
 	{#each resultSections as { id, label, value } (id)}
 		<div>
 			<label for={id} class="label">{label}</label>

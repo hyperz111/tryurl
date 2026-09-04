@@ -13,6 +13,6 @@
 
 <h1 class="title has-text-centered">Edit</h1>
 
-<EditUrlForm isCreate={false} bind:urls slug={data.slug} showForm={!form?.success}>
+<EditUrlForm isCreate={false} bind:urls slug={data.slug} showForm={!form?.success} error={form?.reason}>
 	<p class="has-text-bold">Changes for <b>{data.slug}</b> is saved!</p>
 </EditUrlForm>
