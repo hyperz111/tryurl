@@ -18,6 +18,10 @@
 	]);
 </script>
 
+<svelte:head>
+	<title>Create - TryURL</title>
+</svelte:head>
+
 <h1 class="title has-text-centered">Create</h1>
 
 {#if form?.reason}

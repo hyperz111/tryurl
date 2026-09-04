@@ -7,6 +7,10 @@
 	let urls = $state([...data.urls]);
 </script>
 
+<svelte:head>
+	<title>Edit "{data.slug}" - TryURL</title>
+</svelte:head>
+
 <h1 class="title has-text-centered">Edit</h1>
 
 <EditUrlForm isCreate={false} bind:urls slug={data.slug} showForm={!form?.success}>
