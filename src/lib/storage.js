@@ -10,15 +10,15 @@ const getStorage = (name) => {
 	return {
 		get: (key) => {
 			initialize();
-			store.get(key, { type: "json" });
+			return store.get(key, { type: "json" });
 		},
 		set: (key, value) => {
 			initialize();
-			store.setJSON(key, value);
+			return store.setJSON(key, value);
 		},
 		delete: (key) => {
 			initialize();
-			store.delete(key);
+			return store.delete(key);
 		},
 	};
 };
