@@ -1,8 +1,5 @@
 # tryurl
 
-> [!CAUTION]
-> This project has a bug, I don't have a time to fix it.
-
 > [!WARNING]
 > 🚧 On development. Please don't use this in production!!\
 > But honestly, this is just a fun project.
