@@ -1,12 +1,25 @@
 import { getStore } from "@netlify/blobs";
 
 const getStorage = (name) => {
-	const store = getStore({ name });
+	/** @type {ReturnType<getStore>} */
+	let store = null;
+	const initialize = () => {
+		store ??= getStore({ name });
+	};
 
 	return {
-		get: (key) => store.get(key, { type: "json" }),
-		set: (key, value) => store.setJSON(key, value),
-		delete: (key) => store.delete(key),
+		get: (key) => {
+			initialize();
+			store.get(key, { type: "json" });
+		},
+		set: (key, value) => {
+			initialize();
+			store.setJSON(key, value);
+		},
+		delete: (key) => {
+			initialize();
+			store.delete(key);
+		},
 	};
 };
 
