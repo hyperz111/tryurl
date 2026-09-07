@@ -3,7 +3,7 @@ import { RESERVED_SLUGS } from "$lib/constants.js";
 import { checkUrls } from "$lib/utils.js";
 
 export const actions = {
-	default: async ({ request }) => {
+	main: async ({ request }) => {
 		const form = await request.formData();
 
 		const urls = form

@@ -109,3 +109,19 @@ export const visit = async (slug) => {
 		status: 503,
 	};
 };
+
+/**
+ * @param {string} token
+ * @return {Promise<boolean>}
+ */
+export const remove = async (token) => {
+	const slug = await tokens.get(token);
+	if (slug) {
+		await caches.delete(slug);
+		await slugs.delete(slug);
+		await tokens.delete(token);
+		return true;
+	}
+
+	return false;
+};

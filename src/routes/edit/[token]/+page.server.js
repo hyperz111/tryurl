@@ -1,5 +1,5 @@
-import { error } from "@sveltejs/kit";
-import { access, update } from "$lib/database.js";
+import { error, redirect } from "@sveltejs/kit";
+import { access, update, remove } from "$lib/database.js";
 import { checkUrls } from "$lib/utils.js";
 
 export const load = async ({ params }) => {
@@ -13,7 +13,7 @@ export const load = async ({ params }) => {
 };
 
 export const actions = {
-	default: async ({ params, request }) => {
+	main: async ({ params, request }) => {
 		const form = await request.formData();
 
 		const urls = form
@@ -38,5 +38,10 @@ export const actions = {
 		return {
 			success: true,
 		};
+	},
+	delete: async ({ params }) => {
+		await remove(params.token);
+
+		throw redirect(302, "/edit");
 	},
 };

@@ -70,8 +70,14 @@
 			</div>
 
 			<div class="has-text-centered">
-				<button type="submit" class="button is-primary" disabled={slug === "" || /\s/.test(slug) || urls.length < 2}
-					>{isCreate ? "Create" : "Save"}</button>
+				<button
+					type="submit"
+					formaction="?/main"
+					class="button is-primary"
+					disabled={slug === "" || /\s/.test(slug) || urls.length < 2}>{isCreate ? "Create" : "Save"}</button>
+				{#if !isCreate}
+					<button type="submit" formaction="?/delete" class="button is-danger">Delete</button>
+				{/if}
 			</div>
 		{:else}
 			{@render children()}
