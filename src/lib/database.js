@@ -1,6 +1,7 @@
-import getStorage from "$lib/storage.js";
 import { nanoid } from "nanoid";
+import getStorage from "$lib/storage.js";
 import { CACHE_TTL } from "$lib/constants.js";
+import { isOk } from "$lib/utils.js";
 
 const slugs = getStorage("slug");
 const tokens = getStorage("token");
@@ -61,18 +62,12 @@ export const access = async (token) => {
 export const visit = async (slug) => {
 	const cached = await caches.get(slug);
 	if (cached && cached.expiredAt > Date.now()) {
-		try {
-			const response = await fetch(cached.url, {
-				method: "HEAD",
-			});
-
-			if (response.ok) {
-				return {
-					ok: true,
-					url: cached.url,
-				};
-			}
-		} catch {}
+		if (await isOk(cached.url)) {
+			return {
+				ok: true,
+				url: cached.url,
+			};
+		}
 		await caches.delete(slug);
 	}
 
@@ -86,26 +81,28 @@ export const visit = async (slug) => {
 		};
 	}
 
-	for (const url of urls) {
-		try {
-			const response = await fetch(url, {
-				method: "HEAD",
-			});
+	try {
+		const url = await Promise.any(
+			urls.map(async (url) => {
+				if (await isOk(url)) {
+					return url;
+				} else {
+					throw null; // Intentionally
+				}
+			}),
+		);
 
-			if (response.ok) {
-				await caches.set(slug, {
-					url,
-					// 30 minutes
-					expiredAt: Date.now() + CACHE_TTL,
-				});
+		await caches.set(slug, {
+			url,
+			// 30 minutes
+			expiredAt: Date.now() + CACHE_TTL,
+		});
 
-				return {
-					ok: true,
-					url,
-				};
-			}
-		} catch {}
-	}
+		return {
+			ok: true,
+			url,
+		};
+	} catch {}
 
 	return {
 		ok: false,

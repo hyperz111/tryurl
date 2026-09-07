@@ -18,3 +18,16 @@ export const checkUrls = (urls) => {
 
 	return true;
 };
+
+/**
+ * @param {string} url
+ * @returns {boolean}
+ */
+export const isOk = async (url) => {
+	try {
+		const response = await fetch(url, { method: "HEAD" });
+		return response.ok;
+	} catch {
+		return false;
+	}
+};
